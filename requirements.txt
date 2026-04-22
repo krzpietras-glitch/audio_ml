@@ -1,0 +1,17 @@
+# PyTorch with CUDA 12.6 — install via setup_env.ps1 or manually:
+# pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu126
+torch>=2.3.0
+torchaudio>=2.3.0
+
+# Audio / signal processing
+librosa>=0.10.0
+soundfile>=0.12.0
+
+# Data / visualization
+numpy>=1.26.0
+matplotlib>=3.8.0
+tqdm>=4.66.0
+
+# Notebooks
+jupyter>=1.0.0
+ipykernel>=6.29.0
