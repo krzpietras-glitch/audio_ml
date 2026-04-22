@@ -37,7 +37,9 @@ def parse_args():
 
 def load_as_spec(wav_path: str, device) -> torch.Tensor:
     """Load a WAV file and convert to a normalised 128×128 log-mel spectrogram."""
-    waveform, sr = torchaudio.load(wav_path)
+    import soundfile as sf
+    data, sr = sf.read(wav_path, always_2d=True)    # (samples, channels)
+    waveform  = torch.from_numpy(data.T).float()    # (channels, samples)
     # Mono
     if waveform.shape[0] > 1:
         waveform = waveform.mean(dim=0, keepdim=True)

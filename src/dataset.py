@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from torch.utils.data import Dataset
+import soundfile as sf
 import torchaudio
 import torchaudio.transforms as T
 
@@ -80,7 +81,8 @@ class ESC50Dataset(Dataset):
         return samples
 
     def _load_waveform(self, path: Path):
-        waveform, sr = torchaudio.load(str(path))
+        data, sr = sf.read(str(path), always_2d=True)  # (samples, channels)
+        waveform = torch.from_numpy(data.T).float()     # (channels, samples)
         # Mix down to mono
         if waveform.shape[0] > 1:
             waveform = waveform.mean(dim=0, keepdim=True)
