@@ -7,6 +7,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
+import soundfile as sf
 import matplotlib.pyplot as plt
 import torchaudio
 import torchaudio.transforms as T
@@ -128,7 +129,9 @@ def save_wav(waveform: torch.Tensor, path: str, sample_rate: int = SAMPLE_RATE):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     if waveform.dim() == 1:
         waveform = waveform.unsqueeze(0)
-    torchaudio.save(path, waveform.cpu(), sample_rate)
+    # (channels, samples) → (samples, channels) for soundfile
+    data = waveform.cpu().numpy().T
+    sf.write(path, data, sample_rate)
     print(f"[wav] saved → {path}")
 
 
